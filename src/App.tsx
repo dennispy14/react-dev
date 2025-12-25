@@ -1,11 +1,12 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import './App.css'
 import StartScreen from './components/StartScreen';
 
-import Game  from './components/Game';
+import Game from './components/Game';
 import GameOver from './components/GameOver';
 import { wordsList } from './data/words';
-    
+import { normalize } from '../src/utils/normalizer';
+
 const stages = [
   { id: 1, name: 'start' },
   { id: 2, name: 'game' },
@@ -20,45 +21,50 @@ function App() {
   const [words] = useState(wordsList);
   const [pickedWord, setPickedWord] = useState("");
   const [pickedCategory, setPickedCategory] = useState("");
-  const [letters, setLetters] = useState([]);
-  const [guessedLetters, setGuessedLetters] = useState([]);
-  const [wrongLetters, setWrongLetters] = useState([]);
+  const [letters, setLetters] = useState<string[]>([]);
+  const [guessedLetters, setGuessedLetters] = useState<string[]>([]);
+  const [wrongLetters, setWrongLetters] = useState<string[]>([]);
   const [guesses, setGuesses] = useState(guessesQty);
   const [score, setScore] = useState(0);
 
-  const pickWordAndCategory = () => {
-    //pick a random category
+  const pickWordAndCategory = useCallback(() => {
     const categories = Object.keys(words);
-    const category =
-      categories[Math.floor(Math.random() * Object.keys(categories).length)];
-
-    //pick a random word
-    const word =
-      words[category][Math.floor(Math.random() * words[category].length)];
+    const category = categories[Math.floor(Math.random() * Object.keys(categories).length)];
+    console.log("category : " + category);
+    //const category = "animals";
+    const word = words[category as keyof typeof words][Math.floor(Math.random() * words[category as keyof typeof words].length)];
+    //const word = "Macaco";
 
     return { word, category };
-  };
+  }, [words]);
 
-  const startGame = () => {
-    //clear all letters
+  const startGame = useCallback(() => {
     clearLetterStates();
-    //pick word and category
     const { word, category } = pickWordAndCategory();
-
-    //create an array of letters
+    console.log(word, category);
     let wordLetters = word.split("");
     wordLetters = wordLetters.map((l) => l.toLowerCase());
-    //fill states
+    console.log(wordLetters);
     setPickedWord(word);
     setPickedCategory(category);
     setLetters(wordLetters);
-
+    console.log("letters : " + letters);
+    console.log("pickedWord : " + pickedWord);
+    console.log("pickedCategory : " + pickedCategory);
+    console.log("stages[1].name : " + stages[1].name);
     setGameStage(stages[1].name);
-  };
+  }, [pickWordAndCategory]);
 
   const verifyLetter = (letter: string) => {
-    const normalizedLetter = letter.toLowerCase();
+    const normalizedLetter = normalize(letter);
+    const normalizedWord = normalize(pickedWord);
 
+    if (normalizedWord.includes(normalizedLetter)) {
+      setGuessedLetters((prev) => [...prev, normalizedLetter]);
+    } else {
+      setWrongLetters((prev) => [...prev, normalizedLetter]);
+    }
+    
     //check if letter has already been utilized
     if (
       guessedLetters.includes(normalizedLetter) ||
@@ -82,6 +88,7 @@ function App() {
       setGuesses((actualGuesses) => actualGuesses - 1);
     }
   }
+
   const clearLetterStates = () => {
     setGuessedLetters([]);
     setWrongLetters([]);
@@ -107,7 +114,7 @@ function App() {
       setScore((actualScore) => (actualScore += 100));
 
       //restart game with new word
-      startGame();
+      //startGame();
     }
   }, [guessedLetters, letters, startGame]);
 
@@ -119,10 +126,10 @@ function App() {
   };
 
   return (
-    <div className="App">
-      {gameStage === 'start' && <StartScreen startGame={startGame} />}
-      {gameStage === 'game' && (
-        <Game
+    <div className="game-wrapper">
+      <div className="game-container">
+        {gameStage === 'start' && <StartScreen startGame={startGame} />}
+        {gameStage === 'game' && <Game
           verifyLetter={verifyLetter}
           pickedWord={pickedWord}
           pickedCategory={pickedCategory}
@@ -131,9 +138,10 @@ function App() {
           wrongLetters={wrongLetters}
           guesses={guesses}
           score={score}
-        />
-      )}
-      {gameStage === 'end' && <GameOver retry={retry} score={score} />}
+        />}
+
+
+      </div>
     </div>
   );
 }

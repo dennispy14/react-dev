@@ -1,14 +1,23 @@
 import "./StartScreen.css"
 
-const StartScreen = ( ) => { 
-    return (
-        <div className="start-screen">
-            <h1>Secret Word</h1>
-            <p>Clique no botão abaixo para começar a jogar!</p>
 
-            <button>Começar o jogo</button>
-        </div>
-    )
+
+interface StartScreenProps {
+	startGame: () => void;
 }
 
-export default StartScreen  
+const StartScreen = ({ startGame }: StartScreenProps) => {
+
+	return (
+		<div className="start-screen">
+			<img
+				src="/src/assets/wordquest-logo.png"
+				alt="WordQuest"
+				className="logo-drop"
+			/>
+			<button className="btn" onClick={startGame}>Começar Jogo</button>
+		</div>
+	)
+}
+
+export default StartScreen;

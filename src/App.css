@@ -1,6 +1,38 @@
-.App {
-  display: flex;  
-  align-items: center;
+.game-wrapper {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
   justify-content: center;
-  text-align: center ;
+  align-items: center;
+}
+
+/* Área real do jogo */
+.game-container {
+  aspect-ratio: 9 / 16;
+  height: 100vh;
+  max-height: 100vh;
+
+  background-image: url('./assets/wordquest-bg.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  position: relative;
+  overflow: hidden;
+}
+
+/* Desktop: limita largura */
+@media (min-aspect-ratio: 9/16) {
+  .game-container {
+    width: calc(100vh * (9 / 16));
+    height: 100vh;
+  }
+}
+
+/* Mobile: ocupa largura */
+@media (max-aspect-ratio: 9/16) {
+  .game-container {
+    width: 100vw;
+    height: calc(100vw * (16 / 9));
+  }
 }
