@@ -48,10 +48,6 @@ function App() {
     setPickedWord(word);
     setPickedCategory(category);
     setLetters(wordLetters);
-    console.log("letters : " + letters);
-    console.log("pickedWord : " + pickedWord);
-    console.log("pickedCategory : " + pickedCategory);
-    console.log("stages[1].name : " + stages[1].name);
     setGameStage(stages[1].name);
   }, [pickWordAndCategory]);
 
@@ -59,12 +55,6 @@ function App() {
     const normalizedLetter = normalize(letter);
     const normalizedWord = normalize(pickedWord);
 
-    if (normalizedWord.includes(normalizedLetter)) {
-      setGuessedLetters((prev) => [...prev, normalizedLetter]);
-    } else {
-      setWrongLetters((prev) => [...prev, normalizedLetter]);
-    }
-    
     //check if letter has already been utilized
     if (
       guessedLetters.includes(normalizedLetter) ||
@@ -74,7 +64,7 @@ function App() {
     }
 
     //push guessed letter or remove a guess
-    if (letters.includes(normalizedLetter)) {
+    if (normalizedWord.includes(normalizedLetter)) {
       setGuessedLetters((actualGuessedLetters) => [
         ...actualGuessedLetters,
         normalizedLetter,
@@ -84,7 +74,6 @@ function App() {
         ...actualWrongLetters,
         normalizedLetter,
       ]);
-
       setGuesses((actualGuesses) => actualGuesses - 1);
     }
   }
@@ -92,6 +81,7 @@ function App() {
   const clearLetterStates = () => {
     setGuessedLetters([]);
     setWrongLetters([]);
+    setGuesses(guessesQty);
   };
 
   //check if guesses ended
@@ -109,12 +99,16 @@ function App() {
     const uniqueLetters = [...new Set(letters)];
 
     //win condition
-    if (guessedLetters.length === uniqueLetters.length) {
-      //add score
-      setScore((actualScore) => (actualScore += 100));
-
-      //restart game with new word
-      //startGame();
+    if (guessedLetters.length > 0) {
+      console.log("guessedLetters.length: " + guessedLetters.length);
+      console.log("uniqueLetters.length: " + uniqueLetters.length);
+      if (guessedLetters.length === uniqueLetters.length) {
+        //add score
+        setScore((actualScore) => (actualScore += 100));
+        console.log("Sempre entra aqui");
+        //restart game with new word
+        startGame();
+      }
     }
   }, [guessedLetters, letters, startGame]);
 
