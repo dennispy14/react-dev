@@ -1,3 +1,5 @@
 export const wordsList = {
-     paises: [ 'canadá', 'frança', 'japão', 'índia'],
-  };
+   
+    paises: ['brasil', 'canadá', 'frança', 'alemanha', 'japão', 'índia'],
+   
+};
