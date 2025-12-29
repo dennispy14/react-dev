@@ -27,6 +27,7 @@ function App() {
   const [wrongLetters, setWrongLetters] = useState<string[]>([]);
   const [guesses, setGuesses] = useState(guessesQty);
   const [score, setScore] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
 
   const pickWordAndCategory = useCallback(() => {
     const categories = Object.keys(words);
@@ -90,7 +91,8 @@ function App() {
 
   //check win condition
   useEffect(() => {
-    const uniqueLetters = [...new Set(letters)];
+    const letterNormalized = letters.map((l) => normalize(l));
+    const uniqueLetters = [...new Set(letterNormalized)];
 
     //win condition
     if (guessedLetters.length > 0) {
@@ -98,9 +100,16 @@ function App() {
       console.log("uniqueLetters.length: " + uniqueLetters.length);
       if (guessedLetters.length === uniqueLetters.length) {
         //add score
-        setScore((actualScore) => (actualScore += 100));
-        //restart game with new word
-        startGame();
+        setIsLoading(true); // 🔒 trava a tela
+        setScore((actualScore) => actualScore + 100);
+        console.log(isLoading);
+        //start new game with new word
+        setTimeout(() => {
+
+          setIsLoading(false); // 🔓 libera a tela
+          startGame();
+          
+        }, 2000);
       }
     }
   }, [guessedLetters, letters, startGame]);
@@ -123,6 +132,7 @@ function App() {
           wrongLetters={wrongLetters}
           guesses={guesses}
           score={score}
+          isLoading={isLoading}
         />}
         {gameStage === "end" && (
           <GameOver

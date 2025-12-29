@@ -1,73 +1,85 @@
-# React + TypeScript + Vite
+# 🎮 WordQuest
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+WordQuest é um jogo de **adivinhação de palavras** desenvolvido com **React + TypeScript**, inspirado em jogos casuais de puzzle.  
+O objetivo é descobrir a palavra correta com base em uma dica de categoria, acumulando pontos a cada rodada concluída com sucesso.
 
-Currently, two official plugins are available:
+O projeto foi pensado com foco em:
+- **UX mobile-first**
+- **Interface limpa e responsiva**
+- **Experiência fluida entre rodadas**
+- **Suporte completo ao português (acentos e cedilha)**
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## 🖼️ Preview
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+> Interface mobile com painel central, HUD de pontuação e transições suaves entre rodadas.
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🚀 Funcionalidades
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- 🎯 Sistema de rodadas com palavras aleatórias
+- 🧠 Categorias dinâmicas (animais, frutas, países, profissões, etc.)
+- ✍️ Entrada de letras com validação
+- 🔠 Suporte a acentos e cedilha (`á, ã, ç, ê`, etc.)
+- ❌ Controle de tentativas
+- ⭐ Sistema de pontuação
+- ⏳ Loading animado entre rodadas
+- 🧱 Layout responsivo (mobile e desktop)
+- 🎨 UI isolada do background para melhor legibilidade
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## 🧰 Tecnologias Utilizadas
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- **React**
+- **TypeScript**
+- **Vite**
+- **CSS puro (sem bibliotecas externas)**
+- **Unicode Normalization (NFD)** para tratamento de acentos
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+---
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## 📁 Estrutura do Projeto
+
+src/
+├── components/
+│ ├── StartScreen.tsx
+│ ├── Game.tsx
+│ └── GameOver.tsx
+├── data/
+│ └── words.ts
+├── utils/
+│ └── normalizer.ts
+├── App.tsx
+├── main.tsx
+└── index.css
+
+▶️ Como Executar o Projeto
+Pré-requisitos
+
+Node.js 18+
+
+npm ou pnpm
+
+Instalação
+npm install
+
+
+ou
+
+pnpm install
+
+Rodar em desenvolvimento
+npm run dev
+
+
+ou
+
+pnpm dev
+
+
+A aplicação estará disponível em:
+
+http://localhost:5173
