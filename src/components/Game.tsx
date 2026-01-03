@@ -14,13 +14,11 @@ interface GameProps {
 }
 
 const Game = ({
-  verifyLetter,
-  pickedWord,
+  verifyLetter,  
   pickedCategory,
   letters,
   guessedLetters,
-  wrongLetters,
-  guesses,
+  wrongLetters,  
   score,
   isLoading,
 }: GameProps) => {
