@@ -10,6 +10,7 @@ interface GameProps {
   wrongLetters: string[];
   guesses: number;
   score: number;
+  isLoading?: boolean;
 }
 
 const Game = ({
@@ -21,6 +22,7 @@ const Game = ({
   wrongLetters,
   guesses,
   score,
+  isLoading,
 }: GameProps) => {
   return (
     <div className="game">
@@ -57,11 +59,22 @@ const Game = ({
               input.value = "";
             }}
           >
-
-            <div className="letter-action">
-              <input type="text" maxLength={1} required />
-              <button className="btn">Jogar</button>
-            </div>
+            {!isLoading && (
+              <div className="letter-action">
+                <input type="text" maxLength={1} required />
+                <button className="btn">Jogar</button>
+              </div>
+            )}
+            {isLoading && (
+              <div className="loading-inline">
+                <div className="dots-loader">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+                <p>Carregando nova palavra...</p>
+              </div>
+            )}
           </form>
         </div>
 
