@@ -1,5 +1,5 @@
 import "./StartScreen.css"
-
+import logo from "../assets/wordquest-logo.png";
 
 
 interface StartScreenProps {
@@ -11,7 +11,7 @@ const StartScreen = ({ startGame }: StartScreenProps) => {
 	return (
 		<div className="start-screen">
 			<img
-				src="/src/assets/wordquest-logo.png"
+				src={logo}
 				alt="WordQuest"
 				className="logo-drop"
 			/>
